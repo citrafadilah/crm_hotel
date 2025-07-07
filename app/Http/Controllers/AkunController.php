@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 
 class AkunController extends Controller
 {
@@ -40,6 +40,7 @@ class AkunController extends Controller
      */
     public function edit($id)
     {
+        // Check if the authenticated user is allowed to edit the user
         $user = User::findOrFail($id);
         return view('akun.edit', compact('user'));
     }
@@ -49,7 +50,16 @@ class AkunController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return redirect()->route('akun.index')->with('success', 'User updated successfully.');
+        $user = User::findOrFail($id);
+        $user->name = $request->input('name');
+        // $user->email = $request->input('email');
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+        $user->hp = $request->input('hp');
+        $user->save();
+
+        return redirect()->route('akun.index')->with('success', 'Akun berhasil diperbarui.');
     }
 
 }
