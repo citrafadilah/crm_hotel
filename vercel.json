@@ -4,7 +4,37 @@
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.6.0" }
     },
-    "routes": [{
+    "routes": [
+        {
+            "src": "/build/(.*)",
+            "dest": "/public/temp/build/"
+        },
+        {
+            "src": "/assets/(.*)",
+            "dest": "/public/temp/assets/"
+        },
+
+        {
+            "src": "/css/(.*)",
+            "dest": "/public/temp/css/"
+        },
+        {
+            "src": "/images/(.*)",
+            "dest": "/public/temp/img/"
+        },
+        {
+            "src": "/js/(.*)",
+            "dest": "/public/temp/js/"
+        },
+        {
+            "src": "/vendors/(.*)",
+            "dest": "/public/temp/vendors/"
+        },
+        {
+            "src": "/lib/(.*)",
+            "dest": "/public/temp/lib/"
+        },
+        {
         "src": "/(.*)",
         "dest": "/api/index.php"
     }],
