@@ -16,15 +16,18 @@ class ReservasiController extends Controller
      */
     public function index()
     {
-        $reservasi = Reservasi::where('status', '!=', 'checkout')->get();
         $room = Room::all();
         $user = auth()->user();
         if ($user->role == 'admin') {
-            $reservasi = Reservasi::with('room')->where('status', '!=', 'checkout')->get();
+            $reservasi = Reservasi::with('room')
+            ->where('status', '!=', 'checkout')
+            ->orderBy('updated_at', 'asc')
+            ->get();
         } else {
             $reservasi = Reservasi::where('email', $user->email)
                 ->where('status', '!=', 'checkout')
                 ->with('room')
+                ->orderBy('updated_at', 'asc')
                 ->get();
         }
         return view('reservasi.index', compact('reservasi', 'room', 'user'));
@@ -89,6 +92,10 @@ class ReservasiController extends Controller
      */
     public function update(Request $request, Reservasi $reservasi)
     {
+        $user = auth()->user();
+        if ($user->role != 'admin' && $reservasi->email != $user->email && $reservasi->status != 'pending') {
+            return redirect()->route('reservasi.index')->with('error', 'You do not have permission to update this reservation.');
+        }
         $reservasi->nama = $request->nama;
         $reservasi->email = $request->email;
         $reservasi->nohp = $request->nohp;
@@ -135,6 +142,9 @@ class ReservasiController extends Controller
      */
     public function confirm($id)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('reservasi.index')->with('error', 'You do not have permission to approve this reservation.');
+        }
         $reservasi = Reservasi::findOrFail($id);
         $reservasi->status = 'confirmed';
         $reservasi->updated_by = auth()->user()->name;
@@ -147,7 +157,7 @@ class ReservasiController extends Controller
             $room->save();
         }
 
-        return redirect()->route('reservasi.index')->with('success', 'Reservasi approved successfully.');
+        return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil diterima.');
     }
 
     /**
@@ -155,17 +165,23 @@ class ReservasiController extends Controller
      */
     public function checkin($id)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('reservasi.index')->with('error', 'You do not have permission to check in this reservation.');
+        }
         $reservasi = Reservasi::findOrFail($id);
         $reservasi->status = 'checkin';
         $reservasi->updated_by = auth()->user()->name;
         $reservasi->save();
-        return redirect()->route('reservasi.index')->with('success', 'Check-in successful.');
+        return redirect()->route('reservasi.index')->with('success', 'Check-in berhasil.');
     }
     /**
      * Check out the reservation.
      */
     public function checkout($id)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('reservasi.index')->with('error', 'You do not have permission to check out this reservation.');
+        }
         $reservasi = Reservasi::findOrFail($id);
         $reservasi->status = 'checkout';
         $reservasi->updated_by = auth()->user()->name;
@@ -186,7 +202,7 @@ class ReservasiController extends Controller
             $riwayat->save();
         }
 
-        return redirect()->route('reservasi.index')->with('success', 'Check-out successful.');
+        return redirect()->route('reservasi.index')->with('success', 'Check-out berhasil.');
     }
 
     /**
@@ -203,5 +219,21 @@ class ReservasiController extends Controller
             $reservasi->save();
         }
         return redirect()->route('reservasi.index')->with('success', 'Bukti pembayaran berhasil diunggah.');
+    }
+
+    /**
+     * Cancel the reservation.
+     */
+    public function cancelled($id)
+    {
+        $reservasi = Reservasi::findOrFail($id);
+        if ($reservasi->status != 'pending') {
+            return redirect()->route('reservasi.index')->with('error', 'Reservasi tidak dapat dibatalkan karena sudah dalam status ' . $reservasi->status);
+        }
+        $reservasi->status = 'cancelled';
+        $reservasi->updated_by = auth()->user()->name;
+        $reservasi->save();
+
+        return redirect()->route('reservasi.index')->with('success', 'Reservasi dibatalkan.');
     }
 }

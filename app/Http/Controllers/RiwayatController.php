@@ -26,16 +26,22 @@ class RiwayatController extends Controller
 
     public function show()
     {
-        $riwayat = Riwayat::all();
-        $totalpendapatan = Reservasi::where('status', 'checkout')->sum('total');
+        $riwayat = Riwayat::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
+        $totalpendapatan = Reservasi::where('status', 'checkout')
+            ->whereMonth('updated_at', date('m'))
+            ->whereYear('updated_at', date('Y'))
+            ->sum('total');
         return view('riwayat.show', compact('riwayat',));
     }
 
     public function print()
     {
         $mpdf = new \Mpdf\Mpdf();
-        $riwayat = Riwayat::all();
-        $totalpendapatan = Reservasi::where('status', 'checkout')->sum('total');
+        $riwayat = Riwayat::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
+        $totalpendapatan = Reservasi::where('status', 'checkout')
+            ->whereMonth('updated_at', date('m'))
+            ->whereYear('updated_at', date('Y'))
+            ->sum('total');
         $html = view("riwayat.show", ['riwayat' => $riwayat], ['totalpendapatan' => $totalpendapatan])->render();
         $mpdf->WriteHTML($html);
         $mpdf->Output('riwayat_' . date('Y_m') . '.pdf', 'I');

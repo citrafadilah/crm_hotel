@@ -37,7 +37,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="nohp" class="form-label">Nomor Handphone</label>
-                            <input type="number" class="form-control rounded-pill" id="nohp" name="nohp" required>
+                            <input type="tel" class="form-control rounded-pill" id="nohp" name="nohp" required pattern="[0-9]{10,13}" title="Nomor handphone harus terdiri dari 10 hingga 13 digit angka">
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-3">

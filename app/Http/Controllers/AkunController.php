@@ -33,6 +33,18 @@ class AkunController extends Controller
      */
     public function store(Request  $request)
     {
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('akun.index')->with('error', 'Anda tidak memiliki izin untuk membuat akun.');
+        }
+        $users = new User();
+        $users->name = $request->input('name');
+        $users->email = $request->input('email');
+        $users->password = bcrypt($request->input('password'));
+        $users->role = $request->input('role');
+        $users->hp = $request->input('hp');
+        $users->save();
+
+        return redirect()->route('akun.index')->with('success', 'Akun berhasil dibuat.');
     }
 
     /**

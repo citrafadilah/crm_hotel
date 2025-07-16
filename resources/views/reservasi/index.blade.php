@@ -19,6 +19,19 @@
                 <i class="bi bi-plus-circle"></i> Tambah Reservasi
             </a>
         </div>
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 16px;">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 16px;">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="card shadow-sm bg-warning" style="border-radius: 16px;">
             <div class="card-body">
                 <table class="table table-hover align-center text-light"
@@ -127,11 +140,21 @@
                                     </td>
                                 @endif
                                 <td>
-                                    @if (auth()->user()->role == 'admin' || auth()->user()->id == $reservasi->user_id || $reservasi->status == 'pending')
+                                    @if (auth()->user()->role == 'admin' || auth()->user()->email == $reservasi->email || $reservasi->status == 'pending')
                                         <a href="{{ route('reservasi.edit', $reservasi->id) }}"
                                             class="btn btn-sm btn-warning">
                                             <i class="bi bi-pencil"></i>
                                         </a>
+                                    @endif
+                                    @if (auth()->user()->role == 'user' && auth()->user()->email == $reservasi->email && $reservasi->status == 'pending')
+                                        <form action="{{ route('reservasi.cancelled', $reservasi->id) }}" method="POST"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Yakin ingin membatalkan reservasi ini?')">
+                                            @csrf
+                                            <button type="submit" class="btn btn-sm btn-danger">
+                                                <i class="bi bi-x-circle"></i> Batalkan
+                                            </button>
+                                        </form>
                                     @endif
                                     @if (auth()->user()->role == 'admin')
                                         @if ($reservasi->status == 'pending')
@@ -141,6 +164,14 @@
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-success">
                                                     <i class="bi bi-check2"></i> Konfirmasi
+                                                </button>
+                                            </form>
+                                            <form action="{{ route('reservasi.cancelled', $reservasi->id) }}" method="POST"
+                                                class="d-inline"
+                                                onsubmit="return confirm('Yakin ingin menolak reservasi ini?')">
+                                                @csrf
+                                                <button type="submit" class="btn btn-sm btn-danger">
+                                                    <i class="bi bi-x-circle"></i> Tolak
                                                 </button>
                                             </form>
                                         @elseif($reservasi->status == 'confirmed')

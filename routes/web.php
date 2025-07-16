@@ -48,6 +48,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservasi/{id}/confirm', [ReservasiController::class, 'confirm'])->name('reservasi.confirm');
     Route::post('/reservasi/{id}/checkin', [ReservasiController::class, 'checkin'])->name('reservasi.checkin');
     Route::post('/reservasi/{id}/checkout', [ReservasiController::class, 'checkout'])->name('reservasi.checkout');
+    Route::post('/reservasi/{id}/cancelled', [ReservasiController::class, 'cancelled'])->name('reservasi.cancelled');
     Route::get('/reservasi/{id}/downloadReceipt', [ReservasiController::class, 'downloadReceipt'])->name('reservasi.downloadReceipt');
     Route::get('/riwayat-print', [RiwayatController::class, 'print']);
 

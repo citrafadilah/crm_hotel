@@ -3,6 +3,20 @@
 @section('content')
 <div class="container my-5" style="border-radius: 16px; background-color: #f3cf30; padding: 20px;">
     <h1>Daftar Kamar</h1>
+    @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 16px;">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 16px;">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
     <a href="{{ route('room.create') }}" class="btn btn-warning mb-3" style="border-radius: 16px; border-color: black">Tambah Kamar</a>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
