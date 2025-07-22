@@ -31,14 +31,54 @@
                     <h2 class="mb-4 text-center fw-bold">Buat Reservasi Baru</h2>
                     <form action="{{ route('reservasi.store') }}" method="POST" autocomplete="off">
                         @csrf
-                        <div class="mb-3">
-                            <label for="nama" class="form-label">Nama Lengkap</label>
-                            <input type="text" class="form-control rounded-pill" id="nama" name="nama" required value="{{ auth()->user()->name }}" readonly>
-                        </div>
-                        <div class="mb-3">
-                            <label for="nohp" class="form-label">Nomor Handphone</label>
-                            <input type="tel" class="form-control rounded-pill" id="nohp" name="nohp" required pattern="[0-9]{10,13}" title="Nomor handphone harus terdiri dari 10 hingga 13 digit angka" value="{{ auth()->user()->hp ?? '' }}" readonly>
-                        </div>
+                        @if(auth()->user()->role == 'admin')
+                            <div class="mb-3">
+                                <label for="pelanggan_id" class="form-label">Pilih Pelanggan</label>
+                                <select class="form-control rounded-pill" id="pelanggan_id" name="pelanggan_id" required onchange="isiDataPelanggan(this)">
+                                    <option value="" disabled selected>Pilih pelanggan</option>
+                                    @foreach($pelanggan as $p)
+                                        <option value="{{ $p->id }}"
+                                            data-nama="{{ $p->name }}"
+                                            data-email="{{ $p->email }}"
+                                            data-nohp="{{ $p->hp }}"
+                                        >{{ $p->name }} - {{ $p->email }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control rounded-pill" id="nama" name="nama" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control rounded-pill" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nohp" class="form-label">Nomor Handphone</label>
+                                <input type="tel" class="form-control rounded-pill" id="nohp" name="nohp" required pattern="[0-9]{10,13}" title="Nomor handphone harus terdiri dari 10 hingga 13 digit angka">
+                            </div>
+                            <script>
+                                function isiDataPelanggan(select) {
+                                    var selected = select.options[select.selectedIndex];
+                                    document.getElementById('nama').value = selected.getAttribute('data-nama') || '';
+                                    document.getElementById('email').value = selected.getAttribute('data-email') || '';
+                                    document.getElementById('nohp').value = selected.getAttribute('data-nohp') || '';
+                                }
+                            </script>
+                        @else
+                            <div class="mb-3">
+                                <label for="nama" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control rounded-pill" id="nama" name="nama" required value="{{ auth()->user()->name }}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control rounded-pill" id="email" name="email" required value="{{ auth()->user()->email }}" readonly>
+                            </div>
+                            <div class="mb-3">
+                                <label for="nohp" class="form-label">Nomor Handphone</label>
+                                <input type="tel" class="form-control rounded-pill" id="nohp" name="nohp" required pattern="[0-9]{10,13}" title="Nomor handphone harus terdiri dari 10 hingga 13 digit angka" value="{{ auth()->user()->hp ?? '' }}" readonly>
+                            </div>
+                        @endif
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="checkin" class="form-label">Check-in</label>
@@ -53,11 +93,50 @@
                             @if(request()->has('kamar_id') && isset($kamar) && $kamar->count())
                                 <input type="number" hidden name="kamar_id" value="{{ $kamar->first()->id }}">
                                 <label class="form-label">Tipe Kamar</label>
-                                <input type="text" class="form-control rounded-pill" value="{{ ucfirst($kamar->first()->jeniskamar) }}" disabled>
+                                <input type="text" class="form-control rounded-pill mb-2" value="{{ ucfirst($kamar->first()->jeniskamar) }}" disabled>
+                                {{-- Tambahan untuk kamar_id2 dan kamar_id3 jika ada --}}
+                                @if(request()->has('kamar_id2') && $kamar->count() > 1)
+                                    <input type="number" hidden name="kamar_id2" value="{{ $kamar[1]->id }}">
+                                    <input type="text" class="form-control rounded-pill mb-2" value="{{ ucfirst($kamar[1]->jeniskamar) }}" disabled>
+                                @else
+                                    <select class="form-control rounded-pill mb-2" id="kamar_id2" name="kamar_id2">
+                                        <option value="" selected>Pilih tipe kamar 2 (opsional)</option>
+                                        @foreach($kamar as $r)
+                                            {{-- @if($r->id != $kamar->first()->id) --}}
+                                                <option value="{{ $r->id }}">{{ ucfirst($r->jeniskamar) }} - {{$r->catatan}}</option>
+                                            {{-- @endif --}}
+                                        @endforeach
+                                    </select>
+                                @endif
+                                @if(request()->has('kamar_id3') && $kamar->count() > 2)
+                                    <input type="number" hidden name="kamar_id3" value="{{ $kamar[2]->id }}">
+                                    <input type="text" class="form-control rounded-pill mb-2" value="{{ ucfirst($kamar[2]->jeniskamar) }}" disabled>
+                                @else
+                                    <select class="form-control rounded-pill" id="kamar_id3" name="kamar_id3">
+                                        <option value="" selected>Pilih tipe kamar 3 (opsional)</option>
+                                        @foreach($kamar as $r)
+                                            {{-- @if($r->id != $kamar->first()->id && (!request()->has('kamar_id2') || $r->id != request('kamar_id2'))) --}}
+                                                <option value="{{ $r->id }}">{{ ucfirst($r->jeniskamar) }} - {{$r->catatan}}</option>
+                                            {{-- @endif --}}
+                                        @endforeach
+                                    </select>
+                                @endif
                             @else
-                                <label for="kamar_id" class="form-label">Tipe Kamar</label>
-                                <select class="form-control rounded-pill" id="kamar_id" name="kamar_id" required>
-                                    <option value="" disabled selected>Pilih tipe kamar</option>
+                                <label for="kamar_id" class="form-label">Tipe Kamar (maksimal 3 kamar)</label>
+                                <select class="form-control rounded-pill mb-2" id="kamar_id" name="kamar_id" required>
+                                    <option value="" selected>Pilih tipe kamar 1</option>
+                                    @foreach($kamar as $r)
+                                        <option value="{{ $r->id }}">{{ ucfirst($r->jeniskamar) }} - {{$r->catatan}}</option>
+                                    @endforeach
+                                </select>
+                                <select class="form-control rounded-pill mb-2" id="kamar_id2" name="kamar_id2">
+                                    <option value="" selected>Pilih tipe kamar 2 (opsional)</option>
+                                    @foreach($kamar as $r)
+                                        <option value="{{ $r->id }}">{{ ucfirst($r->jeniskamar) }} - {{$r->catatan}}</option>
+                                    @endforeach
+                                </select>
+                                <select class="form-control rounded-pill" id="kamar_id3" name="kamar_id3">
+                                    <option value="" selected>Pilih tipe kamar 3 (opsional)</option>
                                     @foreach($kamar as $r)
                                         <option value="{{ $r->id }}">{{ ucfirst($r->jeniskamar) }} - {{$r->catatan}}</option>
                                     @endforeach

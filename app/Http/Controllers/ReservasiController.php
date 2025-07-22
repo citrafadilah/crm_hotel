@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Reservasi;
 use App\Models\Riwayat;
 use App\Models\Kamar;
+use App\Models\Pelanggan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use mPDF;
@@ -18,6 +19,7 @@ class ReservasiController extends Controller
     {
         $kamar = Kamar::all();
         $user = auth()->user();
+        $pelanggan = Pelanggan::all();
         if ($user->role == 'admin') {
             $reservasi = Reservasi::with('kamar')
             ->where('status', '!=', 'checkout')
@@ -30,7 +32,7 @@ class ReservasiController extends Controller
                 ->orderBy('updated_at', 'asc')
                 ->get();
         }
-        return view('reservasi.index', compact('reservasi', 'kamar', 'user'));
+        return view('reservasi.index', compact('reservasi', 'kamar', 'user', 'pelanggan'));
     }
 
     /**
@@ -40,8 +42,9 @@ class ReservasiController extends Controller
     {
         $user = auth()->user();
         $kamar = Kamar::all();
+        $pelanggan = Pelanggan::all();
         // $reservasi = Reservasi::where('user_id', $user->id)->get();
-        return view('reservasi.create', compact('user', 'kamar'));
+        return view('reservasi.create', compact('user', 'kamar', 'pelanggan'));
     }
 
     /**
@@ -57,6 +60,9 @@ class ReservasiController extends Controller
         $reservasi->checkin = $request->checkin;
         $reservasi->checkout = $request->checkout;
         $reservasi->kamar_id = $request->kamar_id;
+        $reservasi->kamar_id2 = $request->kamar_id2;
+        $reservasi->kamar_id3 = $request->kamar_id3;
+
         $reservasi->status = 'pending';
 
         $checkin = \Carbon\Carbon::parse($request->checkin);
@@ -66,7 +72,20 @@ class ReservasiController extends Controller
             $days = 1; // Minimal 1 hari
         }
         $kamar = Kamar::find($request->kamar_id);
-        $reservasi->total = $kamar->harga * $days;
+        $kamar2 = $request->kamar_id2 ? Kamar::find($request->kamar_id2) : null;
+        $kamar3 = $request->kamar_id3 ? Kamar::find($request->kamar_id3) : null;
+
+        $total = 0;
+        if ($kamar) {
+            $total += $kamar->harga * $days;
+        }
+        if ($kamar2) {
+            $total += $kamar2->harga * $days;
+        }
+        if ($kamar3) {
+            $total += $kamar3->harga * $days;
+        }
+        $reservasi->total = $total;
         $reservasi->updated_by = $user->name;
 
         $reservasi->save();
@@ -93,17 +112,42 @@ class ReservasiController extends Controller
     public function update(Request $request, Reservasi $reservasi)
     {
         $user = auth()->user();
+        $reservasi = Reservasi::findOrFail($reservasi->id);
         if ($user->role != 'admin' && $reservasi->email != $user->email && $reservasi->status != 'pending') {
             return redirect()->route('reservasi.index')->with('error', 'You do not have permission to update this reservation.');
         }
         $reservasi->nama = $request->nama;
-        $reservasi->email = $request->email;
         $reservasi->nohp = $request->nohp;
         $reservasi->checkin = $request->checkin;
         $reservasi->checkout = $request->checkout;
         $reservasi->kamar_id = $request->kamar_id;
+        $reservasi->kamar_id2 = $request->kamar_id2;
+        $reservasi->kamar_id3 = $request->kamar_id3;
+
+        $checkin = \Carbon\Carbon::parse($request->checkin);
+        $checkout = \Carbon\Carbon::parse($request->checkout);
+        $days = $checkin->diffInDays($checkout);
+        if ($days == 0) {
+            $days = 1; // Minimal 1 hari
+        }
+        $kamar = Kamar::find($request->kamar_id);
+        $kamar2 = $request->kamar_id2 ? Kamar::find($request->kamar_id2) : null;
+        $kamar3 = $request->kamar_id3 ? Kamar::find($request->kamar_id3) : null;
+        $total = 0;
+        if ($kamar) {
+            $total += $kamar->harga * $days;
+        }
+        if ($kamar2) {
+            $total += $kamar2->harga * $days;
+        }
+        if ($kamar3) {
+            $total += $kamar3->harga * $days;
+        }
+        $reservasi->total = $total;
+        $reservasi->updated_by = $user->name;
         $reservasi->status = 'pending';
         $reservasi->save();
+
         return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil diperbarui.');
     }
 

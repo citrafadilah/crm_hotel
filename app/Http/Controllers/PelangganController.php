@@ -13,7 +13,8 @@ class PelangganController extends Controller
      */
     public function index()
     {
-        //
+        $pelanggan = Pelanggan::all();
+        return view('pelanggan.index', compact('pelanggan'));
     }
 
     /**
@@ -21,7 +22,10 @@ class PelangganController extends Controller
      */
     public function create()
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('pelanggan.index')->with('error', 'You do not have permission to create a pelanggan.');
+        }
+        return view('pelanggan.create');
     }
 
     /**
@@ -29,7 +33,12 @@ class PelangganController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $pelanggan = new Pelanggan();
+        $pelanggan->name = $request->name;
+        $pelanggan->email = $request->email;
+        $pelanggan->hp = $request->hp;
+        $pelanggan->save();
+        return redirect()->route('pelanggan.index')->with('success', 'Pelanggan created successfully.');
     }
 
     /**
@@ -45,7 +54,11 @@ class PelangganController extends Controller
      */
     public function edit(Pelanggan $pelanggan)
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('pelanggan.index')->with('error', 'You do not have permission to edit this pelanggan.');
+        }
+        $pelanggan = Pelanggan::findOrFail($pelanggan->id);
+        return view('pelanggan.edit', compact('pelanggan'));
     }
 
     /**
@@ -53,7 +66,14 @@ class PelangganController extends Controller
      */
     public function update(Request $request, Pelanggan $pelanggan)
     {
-        //
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('pelanggan.index')->with('error', 'You do not have permission to update this pelanggan.');
+        }
+        $pelanggan->name = $request->name;
+        $pelanggan->email = $request->email;
+        $pelanggan->hp = $request->hp;
+        $pelanggan->save();
+        return redirect()->route('pelanggan.index')->with('success', 'Pelanggan updated successfully.');
     }
 
     /**

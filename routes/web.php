@@ -10,6 +10,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\RiwayatController;
 use App\Http\Controllers\KamarController;
+use App\Http\Controllers\PelangganController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,6 +47,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('riwayat', RiwayatController::class);
     Route::resource('akun', AkunController::class);
     Route::resource('profile', ProfileController::class);
+    Route::resource('pelanggan', PelangganController::class);
     Route::post('/reservasi/{id}/upload-bukti', [ReservasiController::class, 'uploadBukti'])->name('reservasi.uploadBukti');
     Route::post('/reservasi/{id}/confirm', [ReservasiController::class, 'confirm'])->name('reservasi.confirm');
     Route::post('/reservasi/{id}/checkin', [ReservasiController::class, 'checkin'])->name('reservasi.checkin');

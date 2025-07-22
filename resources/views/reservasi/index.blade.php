@@ -75,12 +75,18 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $reservasi->nama }}</td>
                                 <td>{{ $reservasi->nohp }}</td>
-                                <td>{{ $reservasi->kamar->jeniskamar }}
-
-                                    <br>
-                                    <span class="badge text-light" style="font-size: 0.8em;">
-                                        {{ $reservasi->kamar->catatan }}
-                                    </span>
+                                <td>
+                                    @php
+                                        $kamarIds = array_filter([$reservasi->kamar_id, $reservasi->kamar_id2, $reservasi->kamar_id3]);
+                                        $kamarList = [];
+                                        foreach ($kamarIds as $kid) {
+                                            $kamar = \App\Models\Kamar::find($kid);
+                                            if ($kamar) {
+                                                $kamarList[] = $kamar->jeniskamar . ' <br><span class="badge text-light" style="font-size: 0.8em;">' . $kamar->catatan . '</span>';
+                                            }
+                                        }
+                                    @endphp
+                                    {!! implode('<hr class="my-1">', $kamarList) !!}
 
                                 </td>
 

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-fluid py-5">
-        <h1>Daftar Akun</h1>
+        <h1>Kelola Akun</h1>
         <a href="{{ route('akun.create') }}" class="btn btn-warning mb-3" style="border-radius: 16px">Tambah Akun</a>
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 16px;">

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name'); // Nama pengguna
             $table->string('email')->unique(); // Email unik
-            $table->string('hp')->unique(); // Nomor HP
+            $table->string('hp'); // Nomor HP
             $table->timestamps();
         });
     }
@@ -25,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pelanggans');
+        Schema::dropIfExists('pelanggan');
     }
 };

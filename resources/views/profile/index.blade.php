@@ -28,6 +28,11 @@
                         <div>
                             <h3 class="fw-bold mb-0">{{ Auth::user()->name }}</h3>
                             <p class="text-muted mb-0">{{ Auth::user()->email }}</p>
+                            @if(Auth::user()->hp)
+                                <p class="mb-0"><i class="fas fa-phone fa-fw me-2"></i>{{ Auth::user()->hp }}</p>
+                            @else
+                                <p class="mb-0 text-muted"><i class="fas fa-phone fa-fw me-2"></i>Nomor HP belum diisi</p>
+                            @endif
                         </div>
                     </div>
 
@@ -41,12 +46,6 @@
                                 <i class="fas fa-calendar-alt fa-fw me-2"></i>Tanggal Bergabung
                             </p>
                             <p class="fw-bold mb-0">{{ Auth::user()->created_at->format('d F Y') }}</p>
-                        </div>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <p class="text-muted mb-0">
-                                <i class="fas fa-check-circle fa-fw me-2"></i>Status Akun
-                            </p>
-                            <span class="badge bg-success-subtle text-success-emphasis rounded-pill">Aktif</span>
                         </div>
                     </div>
                     <div class="d-flex justify-content-between align-items-center mt-3">

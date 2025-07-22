@@ -76,10 +76,13 @@
                 @if(Auth::check() && Auth::user()->role == 'admin')
                     <a href="{{ url('dbadmin') }}" class="nav-item nav-link {{ Request::is('dbadmin') ? 'active' : '' }}">Dashboard</a>
                 @elseif(Auth::check() && Auth::user()->role == 'user')
-                    <a href="{{ url('dbuser') }}" class="nav-item nav-link {{ Request::is('dbuser') ? 'active' : '' }}">Dashboard</a>
+                <a href="{{ url('dbuser') }}" class="nav-item nav-link {{ Request::is('dbuser') ? 'active' : '' }}">Dashboard</a>
                 @endif
                 <a href="{{ url('reservasi') }}" class="nav-item nav-link {{ Request::is('reservasi') ? 'active' : '' }}">Reservasi</a>
                 <a href="{{url('riwayat')}}" class="nav-item nav-link {{ Request::is('riwayat') ? 'active' : '' }}">Riwayat</a>
+                @if(Auth::check() && Auth::user()->role == 'admin')
+                <a href="{{ url('pelanggan') }}" class="nav-item nav-link {{ Request::is('pelanggan') ? 'active' : '' }}">Pelanggan</a>
+                @endif
                 @if(Auth::check() && auth()->user()->email === 'palembang.reservasion@hayohotels.com')
                 <a href="{{ url('akun') }}" class="nav-item nav-link {{ Request::is('akun') ? 'active' : '' }}">Akun</a>
                 @endif
