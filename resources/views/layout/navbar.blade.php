@@ -47,32 +47,32 @@
                 <span style="font-size: 24px;">HAYO HOTEL</span>
             </h2>
         </a>
-        @if (Auth::check())
+        @if (Auth::check() && (Request::is('dbadmin') || Request::is('dbuser')))
             <i class="fa fa-user text-white" style="font-size: 1.5rem; margin-right: 10px;"></i>
             @php
-                $greetings = [
-                    'en' => 'Welcome back',
-                    'id' => 'Selamat datang kembali',
-                    'fr' => 'Bon retour',
-                    'de' => 'Willkommen zurück',
-                    'es' => 'Bienvenido de nuevo',
-                    'jp' => 'お帰りなさい',
-                    'ar' => 'مرحبًا بعودتك',
-                    'zh' => '欢迎回来',
-                    'ru' => 'С возвращением',
-                    'ko' => '다시 오신 것을 환영합니다',
-                ];
-                $keys = array_keys($greetings);
-                $selected = $keys[array_rand($keys)];
+            $greetings = [
+            'en' => 'Welcome back',
+            'id' => 'Selamat datang kembali',
+            'fr' => 'Bon retour',
+            'de' => 'Willkommen zurück',
+            'es' => 'Bienvenido de nuevo',
+            'jp' => 'お帰りなさい',
+            'ar' => 'مرحبًا بعودتك',
+            'zh' => '欢迎回来',
+            'ru' => 'С возвращением',
+            'ko' => '다시 오신 것을 환영합니다',
+            ];
+            $keys = array_keys($greetings);
+            $selected = $keys[array_rand($keys)];
             @endphp
             <span class="text-white fw-semibold">
-                {{ $greetings[$selected] }}, {{ Auth::user()->name }}
+            {{ $greetings[$selected] }}, {{ Auth::user()->name }}
             </span>
             </div>
         @endif
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
-                <a href="{{ url('') }}" class="nav-item nav-link {{ Request::is('') ? 'active' : '' }}">Home</a>
+                {{-- <a href="{{ url('') }}" class="nav-item nav-link {{ Request::is('') ? 'active' : '' }}">Home</a> --}}
                 @if(Auth::check() && Auth::user()->role == 'admin')
                     <a href="{{ url('dbadmin') }}" class="nav-item nav-link {{ Request::is('dbadmin') ? 'active' : '' }}">Dashboard</a>
                 @elseif(Auth::check() && Auth::user()->role == 'user')
@@ -80,7 +80,10 @@
                 @endif
                 <a href="{{ url('reservasi') }}" class="nav-item nav-link {{ Request::is('reservasi') ? 'active' : '' }}">Reservasi</a>
                 <a href="{{url('riwayat')}}" class="nav-item nav-link {{ Request::is('riwayat') ? 'active' : '' }}">Riwayat</a>
+                @if(Auth::check() && auth()->user()->email === 'palembang.reservasion@hayohotels.com')
                 <a href="{{ url('akun') }}" class="nav-item nav-link {{ Request::is('akun') ? 'active' : '' }}">Akun</a>
+                @endif
+                <a href="{{ url('profile') }}" class="nav-item nav-link {{ Request::is('profile') ? 'active' : '' }}">Profile</a>
             </div>
         </div>
         <form method="POST" action="{{ route('logout') }}" class="d-inline">

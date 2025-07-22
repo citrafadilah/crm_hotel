@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         // ]);
     $this->call([
         UserSeeder::class,
-        RoomSeeder::class,
+        KamarSeeder::class,
         // HotelSeeder::class,
         // ReservasiSeeder::class,
         // PembayaranSeeder::class,

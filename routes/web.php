@@ -6,9 +6,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DbadminController;
 use App\Http\Controllers\DbuserController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReservasiController;
 use App\Http\Controllers\RiwayatController;
-use App\Http\Controllers\RoomController;
+use App\Http\Controllers\KamarController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -41,9 +42,10 @@ Route::middleware('auth')->group(function () {
     Route::resource('dbuser', DbuserController::class);
     Route::resource('dbadmin', DbadminController::class);
     Route::resource('reservasi', ReservasiController::class);
-    Route::resource('room', RoomController::class);
+    Route::resource('kamar', KamarController::class);
     Route::resource('riwayat', RiwayatController::class);
     Route::resource('akun', AkunController::class);
+    Route::resource('profile', ProfileController::class);
     Route::post('/reservasi/{id}/upload-bukti', [ReservasiController::class, 'uploadBukti'])->name('reservasi.uploadBukti');
     Route::post('/reservasi/{id}/confirm', [ReservasiController::class, 'confirm'])->name('reservasi.confirm');
     Route::post('/reservasi/{id}/checkin', [ReservasiController::class, 'checkin'])->name('reservasi.checkin');

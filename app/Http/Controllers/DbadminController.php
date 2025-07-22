@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Reservasi;
-use App\Models\Room;
+use App\Models\Kamar;
 use Illuminate\Http\Request;
 
 use function Laravel\Prompts\error;
@@ -12,7 +12,7 @@ class DbadminController extends Controller
 {
     public function index()
     {
-        $room = Room::all();
+        $kamar = Kamar::all();
         $reservasi = Reservasi::all();
         $today = now()->toDateString();
         $reservasibaru = Reservasi::where('status', 'pending')
@@ -25,15 +25,15 @@ class DbadminController extends Controller
             ->whereDate('checkout', $today)
             ->count();
 
-        $totalRooms = Room::select('jmlhkamar')->sum('jmlhkamar') - 35;
-        $availableDouble = Room::where('jeniskamar', 'like', '%Double%')
+        $totalKamars = Kamar::select('jmlhkamar')->sum('jmlhkamar') - 35;
+        $availableDouble = Kamar::where('jeniskamar', 'like', '%Double%')
             ->sum('jmlhkamar')-20;
-        $availableTwin = Room::where('jeniskamar', 'like', '%Twin%')
+        $availableTwin = Kamar::where('jeniskamar', 'like', '%Twin%')
             ->sum('jmlhkamar')-15;
 
         if (auth()->user()->role !== 'admin') {
             return error('You do not have permission to access this page.');
         }
-        return view('dashboard.dbadmin', compact('room', 'totalRooms', 'reservasi', 'reservasibaru', 'today', 'checkin', 'checkout', 'availableDouble', 'availableTwin'));
+        return view('dashboard.dbadmin', compact('kamar', 'totalKamars', 'reservasi', 'reservasibaru', 'today', 'checkin', 'checkout', 'availableDouble', 'availableTwin'));
     }
 }

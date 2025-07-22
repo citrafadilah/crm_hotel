@@ -6,7 +6,7 @@
         <div class="row g-4 justify-content-center">
             <div class="row mt-4">
                 <div class="col text-end">
-                    <a href="{{ url('room') }}" class="btn btn-warning btn-lg" style="border-radius: 12px;">
+                    <a href="{{ url('kamar') }}" class="btn btn-warning btn-lg" style="border-radius: 12px;">
                         <i class="bi bi-gear-fill me-2"></i>Manajemen Kamar
                     </a>
                 </div>

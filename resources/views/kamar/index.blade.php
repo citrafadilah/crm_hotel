@@ -17,7 +17,7 @@
     </div>
 @endif
 
-    <a href="{{ route('room.create') }}" class="btn btn-warning mb-3" style="border-radius: 16px; border-color: black">Tambah Kamar</a>
+    <a href="{{ route('kamar.create') }}" class="btn btn-warning mb-3" style="border-radius: 16px; border-color: black">Tambah Kamar</a>
     @if(session('success'))
         <div class="alert alert-success">{{ session('success') }}</div>
     @endif
@@ -33,16 +33,16 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($room as $index => $room)
+            @forelse($kamar as $index => $kamar)
             <tr>
                 <td>{{ $index + 1 }}</td>
-                <td>{{ $room->jeniskamar }}</td>
-                <td>Rp{{ number_format($room->harga, 0, ',', '.') }}</td>
-                <td>{{ $room->catatan }}</td>
-                <td>{{ $room->jmlhkamar }}</td>
+                <td>{{ $kamar->jeniskamar }}</td>
+                <td>Rp{{ number_format($kamar->harga, 0, ',', '.') }}</td>
+                <td>{{ $kamar->catatan }}</td>
+                <td>{{ $kamar->jmlhkamar }}</td>
                 <td>
-                    <a href="{{ route('room.edit', $room->id) }}" class="btn btn-warning btn-sm" style="border-radius: 16px; background-color: #f3cf30;">Edit</a>
-                    <form action="{{ route('room.destroy', $room->id) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('kamar.edit', $kamar->id) }}" class="btn btn-warning btn-sm" style="border-radius: 16px; background-color: #f3cf30;">Edit</a>
+                    <form action="{{ route('kamar.destroy', $kamar->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm text-light" style="border-radius: 16px; background-color: #ff0000" onclick="return confirm('Yakin hapus kamar ini?')">Hapus</button>

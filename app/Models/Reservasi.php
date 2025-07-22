@@ -26,9 +26,9 @@ class Reservasi extends Model
     protected $table = 'reservasi';
     protected $primaryKey = 'id';
 
-    public function room()
+    public function kamar()
     {
-        return $this->belongsTo(Room::class, 'room_id');
+        return $this->belongsTo(Kamar::class, 'kamar_id');
     }
     public function user()
     {

@@ -140,13 +140,13 @@
                 <tr>
                     <td>
                         <strong>Reservasi Hotel</strong><br>
-                        Kamar Tipe: {{$reservasi->room->jeniskamar}}
+                        Kamar Tipe: {{$reservasi->kamar->jeniskamar}}
                     </td>
                     <td>
                         Check-in: {{$reservasi->checkin}}<br>
                         Check-out: {{$reservasi->checkout}}
                     </td>
-                    <td style="text-align:right;">Rp{{ number_format($reservasi->room->harga, 0, ',', '.') }}</td>
+                    <td style="text-align:right;">Rp{{ number_format($reservasi->kamar->harga, 0, ',', '.') }}</td>
                 </tr>
             </tbody>
         </table>
@@ -154,11 +154,11 @@
         <table class="totals-table">
             <tr>
                 <td class="label">Subtotal</td>
-                <td class="value">Rp{{ number_format($reservasi->room->harga, 0, ',', '.') }}</td>
+                <td class="value">Rp{{ number_format($reservasi->kamar->harga, 0, ',', '.') }}</td>
             </tr>
             <tr>
                 <td class="label total">Total Pembayaran</td>
-                <td class="value total">Rp{{ number_format($reservasi->room->harga, 0, ',', '.') }}</td>
+                <td class="value total">Rp{{ number_format($reservasi->kamar->harga, 0, ',', '.') }}</td>
             </tr>
         </table>
 

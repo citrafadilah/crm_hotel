@@ -3,7 +3,7 @@
 @section('content')
 <div class="container my-5">
     <h2>Tambah Kamar</h2>
-    <form action="{{ route('room.store') }}" method="POST">
+    <form action="{{ route('kamar.store') }}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="jeniskamar" class="form-label">Jenis Kamar</label>
@@ -26,7 +26,7 @@
             <input type="number" class="form-control" id="jmlhkamar" name="jmlhkamar" required style="border-radius: 16px;">
         </div>
         <button type="submit" class="btn btn-warning" style="border-radius: 16px">Simpan</button>
-        <a href="{{ route('room.index') }}" class="btn btn-secondary" style="background-color: black; border-radius: 16px;">Batal</a>
+        <a href="{{ route('kamar.index') }}" class="btn btn-secondary" style="background-color: black; border-radius: 16px;">Batal</a>
     </form>
 </div>
 @endsection

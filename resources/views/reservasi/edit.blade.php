@@ -33,12 +33,12 @@
         </div>
 
         <div class="mb-3">
-            <label for="room_id" class="form-label">Tipe Kamar</label>
-            <select class="form-control" id="room_id" name="room_id" style="border-radius: 16px" required>
+            <label for="kamar_id" class="form-label">Tipe Kamar</label>
+            <select class="form-control" id="kamar_id" name="kamar_id" style="border-radius: 16px" required>
                 <option value="" disabled selected>Pilih tipe kamar</option>
-                @foreach($room as $room)
-                    <option value="{{ $room->id }}" {{ old('room_id', $reservasi->room_id) == $room->id ? 'selected' : '' }}>
-                        {{ ucfirst($room->jeniskamar) }} - Rp{{ number_format($room->harga, 0, ',', '.') }}
+                @foreach($kamar as $kamar)
+                    <option value="{{ $kamar->id }}" {{ old('kamar_id', $reservasi->kamar_id) == $kamar->id ? 'selected' : '' }}>
+                        {{ ucfirst($kamar->jeniskamar) }} - Rp{{ number_format($kamar->harga, 0, ',', '.') }}
                     </option>
                 @endforeach
             </select>

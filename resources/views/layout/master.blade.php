@@ -66,7 +66,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="#home" class="nav-item nav-link active">Home</a>
-                <a href="#roomin" class="nav-item nav-link">Room & Suites</a>
+                <a href="#kamarin" class="nav-item nav-link">Room & Suites</a>
                 <a href="#mice" class="nav-item nav-link">Mice & Dining</a>
                 <a href="#about" class="nav-item nav-link">About Us</a>
                 <a href="#testimonial" class="nav-item nav-link">Testimonial</a>
@@ -126,7 +126,7 @@
                                     mewah. Setiap kamar dirancang untuk memberikan suasana yang hangat, dengan tempat
                                     tidur nyaman dan pemandangan memukau yang akan membuat Anda merasa benar-benar
                                     dimanjakan.</p>
-                                <a href="#roomin"
+                                <a href="#kamarin"
                                     class="btn btn-warning py-md-3 px-md-5 me-3 animated slideInLeft">View Rooms</a>
                                 <a href="" class="btn btn-light py-md-3 px-md-5 animated slideInRight">Book
                                     Now</a>
@@ -141,7 +141,7 @@
 
 
     <!-- Service Start -->
-    <div id="roomin" class="container-xxl py-5" style="background-color: #f3cf30;">
+    <div id="kamarin" class="container-xxl py-5" style="background-color: #f3cf30;">
         <div class="container">
             <div class="text-center wow fadeInUp" data-wow-delay="0.1s">
                 <h6 class="section-title text-center text-white px-3">Categories</h6>
@@ -157,7 +157,7 @@
                             </div>
                             <div class="text-white"
                                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; font-weight: bold;">
-                                Smart Room Double</div>
+                                Smart Kamar Double</div>
                         </div>
                     </div>
                 </div>
@@ -170,7 +170,7 @@
                             </div>
                             <div class="text-white"
                                 style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 20px; font-weight: bold;">
-                                Smart Room Twin</div>
+                                Smart Kamar Twin</div>
                         </div>
                     </div>
                 </div>
@@ -267,7 +267,7 @@
                                 service</p> <!-- Ubah hitam jadi putih -->
                         </div>
                         <div class="col-sm-6">
-                            <p class="mb-0 text-white"><i class="fa fa-arrow-right text-white me-2"></i>Room service
+                            <p class="mb-0 text-white"><i class="fa fa-arrow-right text-white me-2"></i>Kamar service
                             </p> <!-- Ubah hitam jadi putih -->
                         </div>
                         <div class="col-sm-6">

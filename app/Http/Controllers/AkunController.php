@@ -33,7 +33,7 @@ class AkunController extends Controller
      */
     public function store(Request  $request)
     {
-        if (auth()->user()->role !== 'admin') {
+        if (auth()->user()->email === 'palembang.reservasion@hayohotels.com') {
             return redirect()->route('akun.index')->with('error', 'Anda tidak memiliki izin untuk membuat akun.');
         }
         $users = new User();

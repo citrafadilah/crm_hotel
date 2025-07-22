@@ -103,7 +103,7 @@
                         <td>{{$riwayat->reservasi->nohp}}</td>
                         <td>{{$riwayat->reservasi->checkin}}</td>
                         <td>{{$riwayat->reservasi->checkout}}</td>
-                        <td>{{$riwayat->reservasi->room->jeniskamar}}</td>
+                        <td>{{$riwayat->reservasi->kamar->jeniskamar}}</td>
                         <td>Rp. {{ number_format($riwayat->reservasi->total, 0, ',', '.') }}</td>
                     </tr>
                     @endforeach

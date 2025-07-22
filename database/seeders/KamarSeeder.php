@@ -2,40 +2,40 @@
 
 namespace Database\Seeders;
 
-use App\Models\Room;
+use App\Models\Kamar;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class RoomSeeder extends Seeder
+class KamarSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run()
     {
-        Room::create([
-            'jeniskamar' => 'Smart Room Double',
+        Kamar::create([
+            'jeniskamar' => 'Smart Kamar Double',
             'harga' => 600000,
             'jmlhorang' => 2,
-            'catatan' => 'Room Only',
+            'catatan' => 'Kamar Only',
             'jmlhkamar' => 20,
         ]);
-        Room::create([
-            'jeniskamar' => 'Smart Room Twin',
+        Kamar::create([
+            'jeniskamar' => 'Smart Kamar Twin',
             'harga' => 600000,
             'jmlhorang' => 2,
-            'catatan' => 'Room Only',
+            'catatan' => 'Kamar Only',
             'jmlhkamar' => 15,
         ]);
-        Room::create([
-            'jeniskamar' => 'Smart Room Double',
+        Kamar::create([
+            'jeniskamar' => 'Smart Kamar Double',
             'harga' => 650000,
             'jmlhorang' => 2,
             'catatan' => 'Include breakfast for 2 pax',
             'jmlhkamar' => 20,
         ]);
-        Room::create([
-            'jeniskamar' => 'Smart Room Twin',
+        Kamar::create([
+            'jeniskamar' => 'Smart Kamar Twin',
             'harga' => 650000,
             'jmlhorang' => 2,
             'catatan' => 'Include breakfast for 2 pax',

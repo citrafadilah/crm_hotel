@@ -2,6 +2,20 @@
 
 @section('content')
     <div class="container py-5">
+            @if(session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 16px;">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
+@if(session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 16px;">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+
         <h2 class="mb-4 text-center" style="color: black;">Riwayat Pemesanan</h2>
         <div class="text-center mb-4">
                 @if (auth()->user()->role === 'admin')
@@ -25,10 +39,10 @@
                             <tr>
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $riwayat->reservasi->nama }}</td>
-                                <td>{{ $riwayat->reservasi->room->jeniskamar }}
+                                <td>{{ $riwayat->reservasi->kamar->jeniskamar }}
                                     <br>
                                     <span class="badge text-light" style="font-size: 0.8em;">
-                                        {{ $riwayat->reservasi->room->catatan }}
+                                        {{ $riwayat->reservasi->kamar->catatan }}
                                     </span>
 
                                 </td>

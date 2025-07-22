@@ -65,7 +65,7 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             {{-- <div class="navbar-nav ms-auto p-4 p-lg-0">
                 <a href="#home" class="nav-item nav-link active">Home</a>
-                <a href="#roomin" class="nav-item nav-link">Room & Suites</a>
+                <a href="#kamarin" class="nav-item nav-link">Kamar & Suites</a>
                 <a href="#mice" class="nav-item nav-link">Mice & Dining</a>
                 <div class="nav-item dropdown">
                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Facilities</a>

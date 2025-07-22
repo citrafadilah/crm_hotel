@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Reservasi;
 use App\Models\Riwayat;
-use App\Models\Room;
+use App\Models\Kamar;
 use App\Models\User;
 use Illuminate\Http\Request;
 use mPDF;
@@ -16,21 +16,21 @@ class ReservasiController extends Controller
      */
     public function index()
     {
-        $room = Room::all();
+        $kamar = Kamar::all();
         $user = auth()->user();
         if ($user->role == 'admin') {
-            $reservasi = Reservasi::with('room')
+            $reservasi = Reservasi::with('kamar')
             ->where('status', '!=', 'checkout')
             ->orderBy('updated_at', 'asc')
             ->get();
         } else {
             $reservasi = Reservasi::where('email', $user->email)
                 ->where('status', '!=', 'checkout')
-                ->with('room')
+                ->with('kamar')
                 ->orderBy('updated_at', 'asc')
                 ->get();
         }
-        return view('reservasi.index', compact('reservasi', 'room', 'user'));
+        return view('reservasi.index', compact('reservasi', 'kamar', 'user'));
     }
 
     /**
@@ -39,9 +39,9 @@ class ReservasiController extends Controller
     public function create()
     {
         $user = auth()->user();
-        $room = Room::all();
+        $kamar = Kamar::all();
         // $reservasi = Reservasi::where('user_id', $user->id)->get();
-        return view('reservasi.create', compact('user', 'room'));
+        return view('reservasi.create', compact('user', 'kamar'));
     }
 
     /**
@@ -56,7 +56,7 @@ class ReservasiController extends Controller
         $reservasi->nohp = $request->nohp;
         $reservasi->checkin = $request->checkin;
         $reservasi->checkout = $request->checkout;
-        $reservasi->room_id = $request->room_id;
+        $reservasi->kamar_id = $request->kamar_id;
         $reservasi->status = 'pending';
 
         $checkin = \Carbon\Carbon::parse($request->checkin);
@@ -65,8 +65,8 @@ class ReservasiController extends Controller
         if ($days == 0) {
             $days = 1; // Minimal 1 hari
         }
-        $room = Room::find($request->room_id);
-        $reservasi->total = $room->harga * $days;
+        $kamar = Kamar::find($request->kamar_id);
+        $reservasi->total = $kamar->harga * $days;
         $reservasi->updated_by = $user->name;
 
         $reservasi->save();
@@ -79,13 +79,13 @@ class ReservasiController extends Controller
     public function edit(Reservasi $reservasi)
     {
         $user = auth()->user();
-        $room = Room::all();
-        $reservasi = Reservasi::with('room')->findOrFail($reservasi->id);
+        $kamar = Kamar::all();
+        $reservasi = Reservasi::with('kamar')->findOrFail($reservasi->id);
         if ($user->role != 'admin' && $reservasi->email != $user->email && $reservasi->status != 'pending') {
             return redirect()->route('reservasi.index')->with('error', 'You do not have permission to edit this reservation.');
         }
 
-        return view('reservasi.edit', compact('reservasi', 'room', 'user'));
+        return view('reservasi.edit', compact('reservasi', 'kamar', 'user'));
     }
     /**
      * Update the specified resource in storage.
@@ -101,7 +101,7 @@ class ReservasiController extends Controller
         $reservasi->nohp = $request->nohp;
         $reservasi->checkin = $request->checkin;
         $reservasi->checkout = $request->checkout;
-        $reservasi->room_id = $request->room_id;
+        $reservasi->kamar_id = $request->kamar_id;
         $reservasi->status = 'pending';
         $reservasi->save();
         return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil diperbarui.');
@@ -113,13 +113,13 @@ class ReservasiController extends Controller
     public function show(Reservasi $reservasi)
     {
         $user = auth()->user();
-        $room = Room::all();
+        $kamar = Kamar::all();
         if ($user->role == 'admin') {
-            $reservasi = Reservasi::with('room')->findOrFail($reservasi->id);
+            $reservasi = Reservasi::with('kamar')->findOrFail($reservasi->id);
         } else {
-            $reservasi = Reservasi::where('email', $user->email)->with('room')->findOrFail($reservasi->id);
+            $reservasi = Reservasi::where('email', $user->email)->with('kamar')->findOrFail($reservasi->id);
         }
-        return view('reservasi.show', compact('reservasi', 'room', 'user'));
+        return view('reservasi.show', compact('reservasi', 'kamar', 'user'));
     }
     /**
      * Download the reservation receipt.
@@ -127,7 +127,7 @@ class ReservasiController extends Controller
     public function downloadReceipt($id)
     {
         $mpdf = new \Mpdf\Mpdf();
-        $reservasi = Reservasi::with('room')->findOrFail($id);
+        $reservasi = Reservasi::with('kamar')->findOrFail($id);
         $mpdf->WriteHTML(view('reservasi.show', [
             'reservasi' => $reservasi,
         ]));
@@ -150,11 +150,11 @@ class ReservasiController extends Controller
         $reservasi->updated_by = auth()->user()->name;
         $reservasi->save();
 
-        // Update room availability
-        $room = Room::find($reservasi->room_id);
-        if ($room) {
-            $room->jmlhkamar -= 1; // Decrease the number of available rooms
-            $room->save();
+        // Update kamar availability
+        $kamar = Kamar::find($reservasi->kamar_id);
+        if ($kamar) {
+            $kamar->jmlhkamar -= 1; // Decrease the number of available kamars
+            $kamar->save();
         }
 
         return redirect()->route('reservasi.index')->with('success', 'Reservasi berhasil diterima.');
@@ -187,11 +187,11 @@ class ReservasiController extends Controller
         $reservasi->updated_by = auth()->user()->name;
         $reservasi->save();
 
-        // Update room availability
-        $room = Room::find($reservasi->room_id);
-        if ($room) {
-            $room->jmlhkamar += 1; // Increase the number of available rooms
-            $room->save();
+        // Update kamar availability
+        $kamar = Kamar::find($reservasi->kamar_id);
+        if ($kamar) {
+            $kamar->jmlhkamar += 1; // Increase the number of available kamars
+            $kamar->save();
         }
 
         if ($reservasi->status == 'checkout') {

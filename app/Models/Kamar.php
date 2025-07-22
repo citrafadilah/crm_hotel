@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Room extends Model
+class Kamar extends Model
 {
     use HasFactory;
-    protected $table = 'room';
+    protected $table = 'kamar';
 
     protected $fillable = [
         'jeniskamar',

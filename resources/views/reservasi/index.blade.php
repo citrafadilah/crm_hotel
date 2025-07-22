@@ -2,31 +2,47 @@
 
 @section('content')
     <div class="container py-5">
-        <div class="alert alert-info mb-4" style="border-radius: 16px;">
-            <strong>Informasi Rekening Pembayaran:</strong><br>
-            Bank: BCA<br>
-            No. Rekening: 1234567890<br>
-            Atas Nama: Hayo Hotel Palembang<br>
+        <div class="accordion" id="accordionRekening">
+            <div class="accordion-item rounded-4 border-0 shadow-sm">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed bg-light text-dark fw-bold rounded-4" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#collapseRekening" aria-expanded="false"
+                        aria-controls="collapseRekening">
+                        Informasi Rekening Pembayaran (Klik untuk lihat)
+                    </button>
+                </h2>
+
+                <div id="collapseRekening" class="accordion-collapse collapse" data-bs-parent="#accordionRekening">
+                    <div class="accordion-body bg-light rounded-bottom-4">
+                        <ul class="list-unstyled mb-0">
+                            <li><strong>Bank:</strong> BCA</li>
+                            <li><strong>No. Rekening:</strong> 1234567890</li>
+                            <li><strong>Atas Nama:</strong> Hayo Hotel Palembang</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
         </div>
-        <div class="my-2" align="right">
+        {{-- <div class="my-2" align="right">
             <a href="{{ url('riwayat') }}" class="btn btn-secondary" style="border-radius: 16px;">
-                    <i class="bi bi-clock-history"></i> Riwayat
+                <i class="bi bi-clock-history"></i> Riwayat
             </a>
-        </div>
-        <div class="d-flex justify-content-between align-items-center mb-4">
+        </div> --}}
+        <div class="d-flex justify-content-between align-items-center mb-4 py-4">
             <h2 class="fw-bold">Reservasi Kamar Hotel</h2>
             <a href="{{ route('reservasi.create') }}" class="btn btn-lg btn-warning" style="border-radius: 16px;">
                 <i class="bi bi-plus-circle"></i> Tambah Reservasi
             </a>
         </div>
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert" style="border-radius: 16px;">
                 {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        @if(session('error'))
+        @if (session('error'))
             <div class="alert alert-danger alert-dismissible fade show" role="alert" style="border-radius: 16px;">
                 {{ session('error') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
@@ -47,7 +63,7 @@
                             <th>Total Harga</th>
                             <th>Bukti Pembayaran</th>
                             <th>Status</th>
-                            @if(Auth::check() && Auth::user()->role == 'admin')
+                            @if (Auth::check() && Auth::user()->role == 'admin')
                                 <th>Updated By</th>
                             @endif
                             <th>Aksi</th>
@@ -59,11 +75,11 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $reservasi->nama }}</td>
                                 <td>{{ $reservasi->nohp }}</td>
-                                <td>{{ $reservasi->room->jeniskamar }}
+                                <td>{{ $reservasi->kamar->jeniskamar }}
 
                                     <br>
                                     <span class="badge text-light" style="font-size: 0.8em;">
-                                        {{ $reservasi->room->catatan}}
+                                        {{ $reservasi->kamar->catatan }}
                                     </span>
 
                                 </td>
@@ -130,7 +146,7 @@
                                             style="border-radius: 16px;">{{ ucfirst($reservasi->status) }}</span>
                                     @endif
                                 </td>
-                                @if(Auth::check() && Auth::user()->role == 'admin')
+                                @if (Auth::check() && Auth::user()->role == 'admin')
                                     <td>
                                         @if ($reservasi->updated_by)
                                             {{ $reservasi->updated_by }}
@@ -158,16 +174,16 @@
                                     @endif
                                     @if (auth()->user()->role == 'admin')
                                         @if ($reservasi->status == 'pending')
-                                            <form action="{{ route('reservasi.confirm', $reservasi->id) }}" method="POST"
-                                                class="d-inline"
+                                            <form action="{{ route('reservasi.confirm', $reservasi->id) }}"
+                                                method="POST" class="d-inline"
                                                 onsubmit="return confirm('Yakin ingin mengkonfirmasi reservasi ini?')">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-success">
                                                     <i class="bi bi-check2"></i> Konfirmasi
                                                 </button>
                                             </form>
-                                            <form action="{{ route('reservasi.cancelled', $reservasi->id) }}" method="POST"
-                                                class="d-inline"
+                                            <form action="{{ route('reservasi.cancelled', $reservasi->id) }}"
+                                                method="POST" class="d-inline"
                                                 onsubmit="return confirm('Yakin ingin menolak reservasi ini?')">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-danger">
@@ -175,8 +191,8 @@
                                                 </button>
                                             </form>
                                         @elseif($reservasi->status == 'confirmed')
-                                            <form action="{{ route('reservasi.checkin', $reservasi->id) }}" method="POST"
-                                                class="d-inline"
+                                            <form action="{{ route('reservasi.checkin', $reservasi->id) }}"
+                                                method="POST" class="d-inline"
                                                 onsubmit="return confirm('Yakin ingin check-in reservasi ini?')">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-primary">
@@ -184,8 +200,8 @@
                                                 </button>
                                             </form>
                                         @elseif($reservasi->status == 'checkin')
-                                            <form action="{{ route('reservasi.checkout', $reservasi->id) }}" method="POST"
-                                                class="d-inline"
+                                            <form action="{{ route('reservasi.checkout', $reservasi->id) }}"
+                                                method="POST" class="d-inline"
                                                 onsubmit="return confirm('Yakin ingin check-out reservasi ini?')">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm btn-danger">
@@ -195,7 +211,8 @@
                                         @endif
                                     @endif
                                     @if ($reservasi->status == 'confirmed' || $reservasi->status == 'checkin' || $reservasi->status == 'checkout')
-                                        <a href="{{ route('reservasi.downloadReceipt', $reservasi->id) }}" class="btn btn-sm btn-secondary">
+                                        <a href="{{ route('reservasi.downloadReceipt', $reservasi->id) }}"
+                                            class="btn btn-sm btn-secondary">
                                             <i class="bi bi-download"></i> Download Receipt
                                         </a>
                                     @else
