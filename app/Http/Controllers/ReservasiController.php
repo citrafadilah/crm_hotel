@@ -18,21 +18,23 @@ class ReservasiController extends Controller
     public function index()
     {
         $kamar = Kamar::all();
-        $user = auth()->user();
         $pelanggan = Pelanggan::all();
-        if ($user->role == 'admin') {
+        $user = User::where('role', 'user')->get();
+        $allPelanggan = $pelanggan->merge($user);
+
+        if (auth()->user()->role == 'admin') {
             $reservasi = Reservasi::with('kamar')
             ->where('status', '!=', 'checkout')
             ->orderBy('updated_at', 'asc')
             ->get();
         } else {
-            $reservasi = Reservasi::where('email', $user->email)
+            $reservasi = Reservasi::where('email', auth()->user()->email)
                 ->where('status', '!=', 'checkout')
                 ->with('kamar')
                 ->orderBy('updated_at', 'asc')
                 ->get();
         }
-        return view('reservasi.index', compact('reservasi', 'kamar', 'user', 'pelanggan'));
+        return view('reservasi.index', compact('reservasi', 'kamar', 'user', 'pelanggan', 'allPelanggan'));
     }
 
     /**
@@ -40,11 +42,12 @@ class ReservasiController extends Controller
      */
     public function create()
     {
-        $user = auth()->user();
         $kamar = Kamar::all();
         $pelanggan = Pelanggan::all();
+        $user = User::where('role', 'user')->get();
+        $allPelanggan = $pelanggan->merge($user);
         // $reservasi = Reservasi::where('user_id', $user->id)->get();
-        return view('reservasi.create', compact('user', 'kamar', 'pelanggan'));
+        return view('reservasi.create', compact('user', 'kamar', 'pelanggan', 'allPelanggan'));
     }
 
     /**

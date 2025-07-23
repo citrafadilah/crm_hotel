@@ -36,7 +36,7 @@
                                 <label for="pelanggan_id" class="form-label">Pilih Pelanggan</label>
                                 <select class="form-control rounded-pill" id="pelanggan_id" name="pelanggan_id" required onchange="isiDataPelanggan(this)">
                                     <option value="" disabled selected>Pilih pelanggan</option>
-                                    @foreach($pelanggan as $p)
+                                    @foreach($allPelanggan as $p)
                                         <option value="{{ $p->id }}"
                                             data-nama="{{ $p->name }}"
                                             data-email="{{ $p->email }}"

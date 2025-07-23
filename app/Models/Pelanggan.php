@@ -15,4 +15,9 @@ class Pelanggan extends Model
         'email',
         'hp'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Pelanggan;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PelangganController extends Controller
@@ -14,7 +15,9 @@ class PelangganController extends Controller
     public function index()
     {
         $pelanggan = Pelanggan::all();
-        return view('pelanggan.index', compact('pelanggan'));
+        $user = User::where('role', 'user')->get();
+        $allPelanggan = $pelanggan->merge($user);
+        return view('pelanggan.index', compact('pelanggan', 'user', 'allPelanggan'));
     }
 
     /**
