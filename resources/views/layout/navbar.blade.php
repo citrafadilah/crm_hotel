@@ -85,6 +85,7 @@
                 @endif
                 @if(Auth::check() && auth()->user()->email === 'palembang.reservasion@hayohotels.com')
                 <a href="{{ url('akun') }}" class="nav-item nav-link {{ Request::is('akun') ? 'active' : '' }}">Akun</a>
+                <a href="{{ url('kamar') }}" class="nav-item nav-link {{ Request::is('kamar') ? 'active' : '' }}">Kamar</a>
                 @endif
                 <a href="{{ url('profile') }}" class="nav-item nav-link {{ Request::is('profile') ? 'active' : '' }}">Profile</a>
             </div>

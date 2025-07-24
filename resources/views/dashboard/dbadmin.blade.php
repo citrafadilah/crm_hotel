@@ -5,11 +5,6 @@
     <div class="container-fluid py-5" style=" min-height: 100vh;">
         <div class="row g-4 justify-content-center">
             <div class="row mt-4">
-                <div class="col text-end">
-                    <a href="{{ url('kamar') }}" class="btn btn-warning btn-lg" style="border-radius: 12px;">
-                        <i class="bi bi-gear-fill me-2"></i>Manajemen Kamar
-                    </a>
-                </div>
             </div>
             <!-- Statistik Hari Ini -->
             <!-- Kamar Terpakai -->

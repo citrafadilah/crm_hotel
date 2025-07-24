@@ -18,7 +18,7 @@
 
         <h2 class="mb-4 text-center" style="color: black;">Riwayat Pemesanan</h2>
         <div class="text-center mb-4">
-                @if (auth()->user()->role === 'admin')
+                @if (auth()->user()->email == 'palembang.reservasion@hayohotels.com')
                     <a href="{{ url('riwayat-print') }}" class="btn btn-warning mb-4"
                         style="background: #FFD600; color: #111; border-radius: 16px;">Cetak Laporan</a>
                 @endif

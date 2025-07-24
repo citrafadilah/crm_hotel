@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Kamar;
 use Illuminate\Http\Request;
 
+use function Laravel\Prompts\error;
+
 class KamarController extends Controller
 {
     /**
@@ -12,6 +14,9 @@ class KamarController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('kamar.index')->with('error', 'Unauthorized action.');
+        }
         $kamar = Kamar::all();
         return view('kamar.index', compact('kamar'));
     }
@@ -21,8 +26,8 @@ class KamarController extends Controller
      */
     public function create()
     {
-        if (auth()->user()->role !== 'admin') {
-            abort(403, 'Unauthorized action.');
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('kamar.index')->with('error', 'Unauthorized action.');
         }
         return view('kamar.create');
     }
@@ -32,6 +37,9 @@ class KamarController extends Controller
      */
     public function store(Request $request)
     {
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('kamar.index')->with('error', 'Unauthorized action.');
+        }
         $kamar = new Kamar();
         $kamar->jeniskamar = $request->jeniskamar;
         $kamar->harga = $request->harga;
@@ -55,6 +63,9 @@ class KamarController extends Controller
      */
     public function edit(string $id)
     {
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('kamar.index')->with('error', 'Unauthorized action.');
+        }
         $kamar = Kamar::findOrFail($id);
         if (auth()->user()->role !== 'admin') {
             abort(403, 'Unauthorized action.');
@@ -67,6 +78,9 @@ class KamarController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('kamar.index')->with('error', 'Unauthorized action.');
+        }
         $kamar = Kamar::findOrFail($id);
         $kamar->jeniskamar = $request->jeniskamar;
         $kamar->harga = $request->harga;
@@ -82,6 +96,9 @@ class KamarController extends Controller
      */
     public function destroy(string $id)
     {
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('kamar.index')->with('error', 'Unauthorized action.');
+        }
         $kamar = Kamar::findOrFail($id);
         $kamar->delete();
         return redirect()->route('kamar.index')->with('success', 'Kamar successfully deleted.');

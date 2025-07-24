@@ -26,6 +26,10 @@ class RiwayatController extends Controller
 
     public function show()
     {
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('riwayat.index')->with('error', 'Tidak memiliki akses!.');
+        }
+
         $riwayat = Riwayat::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
         $totalpendapatan = Reservasi::where('status', 'checkout')
             ->whereMonth('updated_at', date('m'))
@@ -36,6 +40,10 @@ class RiwayatController extends Controller
 
     public function print()
     {
+        if (auth()->user()->email != 'palembang.reservasion@hayohotels.com') {
+            return redirect()->route('riwayat.index')->with('error', 'Tidak memiliki akses!.');
+        }
+
         $mpdf = new \Mpdf\Mpdf();
         $riwayat = Riwayat::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->get();
         $totalpendapatan = Reservasi::where('status', 'checkout')
