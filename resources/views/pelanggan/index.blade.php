@@ -15,7 +15,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse($pelanggan as $pelanggan)
+            @forelse($allPelanggan as $pelanggan)
             <tr>
                 <td>{{ $loop->iteration }}</td>
                 <td>{{ $pelanggan->name }}</td>
