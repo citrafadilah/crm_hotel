@@ -14,73 +14,83 @@
             <!-- Statistik Hari Ini -->
             <!-- Kamar Terpakai -->
             <div class="col-5">
-                <div class="card border-0 shadow-lg" style="background: #f3cf30; color: #ffffff; border-radius: 18px;">
-                    <div class="card-body text-center">
-                        <div class="mb-3">
-                            <i class="bi bi-person-check-fill" style="font-size: 2.5rem;"></i>
+                <a href="{{ url('kamar') }}" class="text-decoration-none">
+                    <div class="card border-0 shadow-lg" style="background: #f3cf30; color: #ffffff; border-radius: 18px;">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="bi bi-person-check-fill" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-white">Kamar Terpakai</h5>
+                            <p class="card-text display-4 fw-bold mb-0">{{ $reservasibaru }}</p>
                         </div>
-                        <h5 class="card-title fw-bold text-white">Kamar Terpakai</h5>
-                        <p class="card-text display-4 fw-bold mb-0">{{ $reservasibaru }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             <!-- Kamar Tersedia -->
             <div class="col-5">
-                <div class="card border-0 shadow-lg" style="background: #00b34d; color: #ffffff; border-radius: 18px;">
-                    <div class="card-body text-center">
-                        <div class="mb-3">
-                            <i class="bi bi-door-open-fill" style="font-size: 2.5rem;"></i>
-                        </div>
-                        <h5 class="card-title fw-bold text-white">Kamar Tersedia</h5>
-                        <div class="d-flex justify-content-center gap-3">
-                            <div class="me-4">
-                                <div class="d-flex flex-column align-items-center">
-                                    <span class="fw-semibold">Double</span>
-                                    <span class="fw-bold fs-3">{{ $availableDouble }}</span>
+                <a href="{{ url('kamar') }}" class="text-decoration-none">
+                    <div class="card border-0 shadow-lg" style="background: #00b34d; color: #ffffff; border-radius: 18px;">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="bi bi-door-open-fill" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-white">Kamar Tersedia</h5>
+                            <div class="d-flex justify-content-center gap-3">
+                                <div class="me-4">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span class="fw-semibold">Double</span>
+                                        <span class="fw-bold fs-3">{{ $availableDouble }}</span>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="d-flex flex-column align-items-center">
+                                        <span class="fw-semibold">Twin</span>
+                                        <span class="fw-bold fs-3">{{ $availableTwin }}</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div>
-                                <div class="d-flex flex-column align-items-center">
-                                    <span class="fw-semibold">Twin</span>
-                                    <span class="fw-bold fs-3">{{ $availableTwin }}</span>
-                                </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-4">
+                <a href="{{ url('reservasi') }}" class="text-decoration-none">
+                    <div class="card border-0 shadow-lg" style="background: #007bff; color: #ffffff; border-radius: 18px;">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="bi bi-box-arrow-in-right" style="font-size: 2.5rem;"></i>
                             </div>
+                            <h5 class="card-title fw-bold text-white">Check-in Hari Ini</h5>
+                            <p class="card-text display-4 fw-bold mb-0">{{ $checkin }}</p>
                         </div>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-4">
-                <div class="card border-0 shadow-lg" style="background: #007bff; color: #ffffff; border-radius: 18px;">
-                    <div class="card-body text-center">
-                        <div class="mb-3">
-                            <i class="bi bi-box-arrow-in-right" style="font-size: 2.5rem;"></i>
+                <a href="{{ url('reservasi') }}" class="text-decoration-none">
+                    <div class="card border-0 shadow-lg" style="background: #6610f2; color: #ffffff; border-radius: 18px;">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="bi bi-box-arrow-right" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-white">Check-out Hari Ini</h5>
+                            <p class="card-text display-4 fw-bold mb-0">{{ $checkout }}</p>
                         </div>
-                        <h5 class="card-title fw-bold text-white">Check-in Hari Ini</h5>
-                        <p class="card-text display-4 fw-bold mb-0">{{ $checkin }}</p>
                     </div>
-                </div>
+                </a>
             </div>
             <div class="col-4">
-                <div class="card border-0 shadow-lg" style="background: #6610f2; color: #ffffff; border-radius: 18px;">
-                    <div class="card-body text-center">
-                        <div class="mb-3">
-                            <i class="bi bi-box-arrow-right" style="font-size: 2.5rem;"></i>
+                <a href="{{ url('reservasi') }}" class="text-decoration-none">
+                    <div class="card border-0 shadow-lg" style="background: #fd7e14; color: #ffffff; border-radius: 18px;">
+                        <div class="card-body text-center">
+                            <div class="mb-3">
+                                <i class="bi bi-calendar-plus-fill" style="font-size: 2.5rem;"></i>
+                            </div>
+                            <h5 class="card-title fw-bold text-white">Reservasi Baru</h5>
+                            <p class="card-text display-4 fw-bold mb-0">{{ $reservasibaru }}</p>
                         </div>
-                        <h5 class="card-title fw-bold text-white">Check-out Hari Ini</h5>
-                        <p class="card-text display-4 fw-bold mb-0">{{ $checkout }}</p>
                     </div>
-                </div>
-            </div>
-            <div class="col-4">
-                <div class="card border-0 shadow-lg" style="background: #fd7e14; color: #ffffff; border-radius: 18px;">
-                    <div class="card-body text-center">
-                        <div class="mb-3">
-                            <i class="bi bi-calendar-plus-fill" style="font-size: 2.5rem;"></i>
-                        </div>
-                        <h5 class="card-title fw-bold text-white">Reservasi Baru</h5>
-                        <p class="card-text display-4 fw-bold mb-0">{{ $reservasibaru }}</p>
-                    </div>
-                </div>
+                </a>
             </div>
             <!-- Card Pengumuman -->
             <div class="row mt-5 justify-content-center">
