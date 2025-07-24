@@ -77,7 +77,7 @@
                                 <td>{{ $reservasi->nohp }}</td>
                                 <td>
                                     @php
-                                        $kamarIds = array_filter([$reservasi->kamar_id, $reservasi->kamar_id2, $reservasi->kamar_id3]);
+                                        $kamarIds = array_filter([$reservasi->kamar_id, $reservasi->kamar_id2, $reservasi->kamar_id3, $reservasi->kamar_id4, $reservasi->kamar_id5]);
                                         $kamarList = [];
                                         foreach ($kamarIds as $kid) {
                                             $kamar = \App\Models\Kamar::find($kid);

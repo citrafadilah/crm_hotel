@@ -21,6 +21,7 @@ return new class extends Migration
             $table->foreignId('kamar_id')->constrained('kamar')->onDelete('cascade');
             $table->foreignId('kamar_id2')->nullable()->constrained('kamar')->onDelete('cascade');
             $table->foreignId('kamar_id3')->nullable()->constrained('kamar')->onDelete('cascade');
+            $table->foreignId('kamar_id4')->nullable()->constrained('kamar')->onDelete('cascade');
             $table->string('bukti_bayar')->nullable();
             $table->enum('status', ['pending', 'confirmed', 'checkin', 'checkout', 'cancelled'])->default('pending');
             $table->integer('total')->default(0);

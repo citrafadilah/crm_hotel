@@ -65,6 +65,7 @@ class ReservasiController extends Controller
         $reservasi->kamar_id = $request->kamar_id;
         $reservasi->kamar_id2 = $request->kamar_id2;
         $reservasi->kamar_id3 = $request->kamar_id3;
+        $reservasi->kamar_id4 = $request->kamar_id4;
 
         $reservasi->status = 'pending';
 
@@ -77,6 +78,7 @@ class ReservasiController extends Controller
         $kamar = Kamar::find($request->kamar_id);
         $kamar2 = $request->kamar_id2 ? Kamar::find($request->kamar_id2) : null;
         $kamar3 = $request->kamar_id3 ? Kamar::find($request->kamar_id3) : null;
+        $kamar4 = $request->kamar_id4 ? Kamar::find($request->kamar_id4) : null;
 
         $total = 0;
         if ($kamar) {
@@ -87,6 +89,9 @@ class ReservasiController extends Controller
         }
         if ($kamar3) {
             $total += $kamar3->harga * $days;
+        }
+        if ($kamar4) {
+            $total += $kamar4->harga * $days;
         }
         $reservasi->total = $total;
         $reservasi->updated_by = $user->name;
@@ -126,6 +131,7 @@ class ReservasiController extends Controller
         $reservasi->kamar_id = $request->kamar_id;
         $reservasi->kamar_id2 = $request->kamar_id2;
         $reservasi->kamar_id3 = $request->kamar_id3;
+        $reservasi->kamar_id4 = $request->kamar_id4;
 
         $checkin = \Carbon\Carbon::parse($request->checkin);
         $checkout = \Carbon\Carbon::parse($request->checkout);
@@ -136,6 +142,7 @@ class ReservasiController extends Controller
         $kamar = Kamar::find($request->kamar_id);
         $kamar2 = $request->kamar_id2 ? Kamar::find($request->kamar_id2) : null;
         $kamar3 = $request->kamar_id3 ? Kamar::find($request->kamar_id3) : null;
+        $kamar4 = $request->kamar_id4 ? Kamar::find($request->kamar_id4) : null;
         $total = 0;
         if ($kamar) {
             $total += $kamar->harga * $days;
@@ -145,6 +152,9 @@ class ReservasiController extends Controller
         }
         if ($kamar3) {
             $total += $kamar3->harga * $days;
+        }
+        if ($kamar4) {
+            $total += $kamar4->harga * $days;
         }
         $reservasi->total = $total;
         $reservasi->updated_by = $user->name;
